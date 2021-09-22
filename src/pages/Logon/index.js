@@ -28,9 +28,10 @@ export default function Logon(){
     measurementId: process.env.REACT_APP_MEASUREMENT_ID,
   };
   
-  // Initialize Firebase
+  //Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
+  console.log(analytics);
   
   async function handleLogin(e){
   e.preventDefault();
@@ -40,6 +41,7 @@ export default function Logon(){
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
+    console.log(user);
     history.push('profile');
     
     // ...

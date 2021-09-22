@@ -34,7 +34,7 @@ export default function Register(){
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
-
+  console.log(analytics);
 
   async function handleRegister(e){
       //evita o reload da page quando vc clica no botao
