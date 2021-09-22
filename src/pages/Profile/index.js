@@ -21,7 +21,7 @@ const sale = [{
   "id": 26,
   "name":"Jeff",
   "img": "https://uploadexample.s3.us-east-2.amazonaws.com/jef.jpg",
-  "Sales": 30000,
+  "Sales": 300000,
   "Average": 28923,
   "Close": 28923,
   "Set": 28923,
