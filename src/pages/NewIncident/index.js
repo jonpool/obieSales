@@ -1,7 +1,6 @@
 import React,{useState} from 'react';
 import {Link, useHistory} from 'react-router-dom'; 
 import{FiArrowLeft} from 'react-icons/fi';
-import api from '../../Services/api'
 import './style.css';
 import logoImage from '../../assets/Logo.png';
 import * as XLSX from 'xlsx'
@@ -9,35 +8,13 @@ import * as XLSX from 'xlsx'
 
 export default function NewIncident()
  {
-  const[title, setTitle] = useState('');
-  const[description, setDescription] = useState('');
-  const[value, setValue ] = useState('');
+  
 
   const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
-
-  const ongId = localStorage.getItem('ongId');
+  console.log(isFilePicked);
 
   const history = useHistory();
-  async function handleNewIncident(e)
-  {
-      e.preventDefault();
-      const data ={
-        title,
-        description,
-        value,
-      };
-    try{
-        await api.post('incidents',data,{
-            headers:{
-              Authorization: ongId,
-            }
-          })
-        history.push('/profile');
-      }catch{
-        alert('Erro ao cadastrar caso, tente novamente')
-      }
-  } 
 
   const changeHandler = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -48,6 +25,7 @@ export default function NewIncident()
     e.preventDefault();
     readExcel(selectedFile);
     alert("File Successfully upload!");
+    history.push('/profile');
     
   };
   

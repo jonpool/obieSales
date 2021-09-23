@@ -6,50 +6,6 @@ import './style.css';
 import logoImage from '../../assets/Logo.png';
 
 
-const sale = [{
-  
-  "id": 6,
-  "name":"Obie",
-  "img": "https://uploadexample.s3.us-east-2.amazonaws.com/obie.jpg",
-  "Sales": 75000,
-  "Average": 28923,
-  "Close": 28923,
-  "Set": 28923,
-  "Sold": 28923
-},
-{
-  "id": 26,
-  "name":"Jeff",
-  "img": "https://uploadexample.s3.us-east-2.amazonaws.com/jef.jpg",
-  "Sales": 300000,
-  "Average": 28923,
-  "Close": 28923,
-  "Set": 28923,
-  "Sold": 28923
-},
-{
-  "id": 37,
-  "name":"Scott",
-  "img": "https://uploadexample.s3.us-east-2.amazonaws.com/scotr.jpg",
-  "Sales": 60000,
-  "Average": 28923,
-  "Close": 28923,
-  "Set": 28923,
-  "Sold": 28923
-},
-{
-
-  "id": 38,
-  "name":"Tony",
-  "img": "https://uploadexample.s3.us-east-2.amazonaws.com/tony.jpg",
-  "Sales": 70000,
-  "Average": 28923,
-  "Close": 28923,
-  "Set": 28923,
-  "Sold": 28923
-}
-]
-
 export default function Profile(){
 
   const [incidents, setSale] = useState([]); 
