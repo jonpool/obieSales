@@ -39,7 +39,7 @@ const sale = [{
 },
 {
 
-  "id": 37,
+  "id": 38,
   "name":"Tony",
   "img": "https://uploadexample.s3.us-east-2.amazonaws.com/tony.jpg",
   "Sales": 70000,
@@ -56,12 +56,21 @@ export default function Profile(){
   const history = useHistory();
 
   useEffect(()=>{
-    setSale(sale);
-    },/*todo vez que a id da ond mudar ele refaz o funcion acima*/ [])
+    
+    
+    if((localStorage["data1"]) == null){
+      alert("You need to upload a xlx file");
+      history.push('/Incident/new');
+
+    }
+    else
+    var stored_datas = JSON.parse(localStorage["data1"]);
+    console.log("Array: ",stored_datas);
+    setSale(stored_datas);
+    },/*todo vez que a id da ond mudar ele refaz o funcion acima*/ [history])
 
   function handleLogout(){
     localStorage.clear();
-
     history.push('/');
   }
 
@@ -71,7 +80,7 @@ export default function Profile(){
       <img src={logoImage} alt="Obie"/>
   <span>Welcome, To Obie Sales Chart!</span>
 
-      <Link className="button" to="/Incident/new">Refresh</Link>
+      <Link className="button" to="/Incident/new">Upload</Link>
       <button onClick ={handleLogout} type="button">
         <FiPower size={18} color="#e02041"/>
       </button>
@@ -84,38 +93,38 @@ export default function Profile(){
        <li>TOP SALE #4</li>
      </ul>
     <ul>
-     {incidents.sort((a, b) => (a.Sales < b.Sales) ? 1 : -1).map(incident=>(
+     {incidents.sort((a, b) => (a.Total_Sales < b.Total_Sales) ? 1 : -1).map(incident=>(
        
-     <li key={incident.id}>
-     <strong>{incident.name}</strong>
-     <img src={incident.img} alt=''></img>
-    <table class="styled-table">
+     <li key={incident.Name}>
+     <strong>{incident.Name}</strong>
+     <img src={incident.Img} alt=''></img>
+    <table className="styled-table">
           <thead>
               <tr>
                   <th>Name</th>
-                  <th>{incident.name}</th>
+                  <th>{incident.Name}</th>
               </tr>
           </thead>
           <tbody>
-              <tr class="active-row">
+              <tr className="active-row">
                   <td>Sales</td>
-                  <td>{incident.Sales}</td>
+                  <td>{Intl.NumberFormat('en-US',{style:'currency', currency:'USD'} ).format(incident.Total_Sales)}</td>
               </tr>
-              <tr class="active-row">
+              <tr className="active-row">
                   <td>Average</td>
-                  <td>{incident.Average}</td>
+                  <td>{Intl.NumberFormat('en-US',{style:'currency', currency:'USD'} ).format(incident.Closed_Average_Sale)}</td>
               </tr>
-              <tr class="active-row">
+              <tr className="active-row">
                   <td>Close</td>
-                  <td>{Intl.NumberFormat('en-US',{style:'currency', currency:'USD'} ).format(incident.Close)}</td>
+                  <td>{incident.Closed_Opportunities}</td>
               </tr>
-              <tr class="active-row">
+              <tr className="active-row">
                   <td>Set</td>
-                  <td>{incident.Set}</td>
+                  <td>{incident.Sales_Opportunity}</td>
               </tr>
-              <tr class="active-row">
+              <tr className="active-row">
                   <td>Sold</td>
-                  <td>{incident.Sold}</td>
+                  <td>{incident.Closed_Opportunities}</td>
               </tr>
               
           </tbody>

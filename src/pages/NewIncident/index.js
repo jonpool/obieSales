@@ -4,6 +4,8 @@ import{FiArrowLeft} from 'react-icons/fi';
 import api from '../../Services/api'
 import './style.css';
 import logoImage from '../../assets/Logo.png';
+import * as XLSX from 'xlsx'
+
 
 export default function NewIncident()
  {
@@ -40,56 +42,69 @@ export default function NewIncident()
   const changeHandler = (event) => {
     setSelectedFile(event.target.files[0]);
     setIsFilePicked(true);
-    console.log(Event.target.files)
+    
   };
-  const handleSubmission = () => {
+  const handleSubmission = (e) => {
+    e.preventDefault();
+    readExcel(selectedFile);
+    alert("File Successfully upload!");
+    
   };
+  
+  var items = [];
+  
+  const readExcel=(file) => {
+    const promise = new Promise((resolve, reject)=>{
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(file);
+      fileReader.onload=(e)=>{
+        const bufferArray = e.target.result;
+        const wb = {SheetNames:[], Sheets:{}};
+        const ws1 = XLSX.read(bufferArray, {type:"buffer"}).Sheets.Sheet1;
+        const ws2 = XLSX.read(bufferArray, {type:"buffer"}).Sheets.Sheet2;
+        
+        wb.SheetNames.push("Sheet1"); wb.Sheets["Sheet1"] = ws1;
+        wb.SheetNames.push("Sheet2"); wb.Sheets["Sheet2"] = ws2;
+     
+        const data1 = XLSX.utils.sheet_to_json(ws1);
+        const data2 = XLSX.utils.sheet_to_json(ws2);
+        localStorage.setItem("data1", JSON.stringify(data1));
 
-
-
-
+        resolve([data1, data2]);
+      };
+      fileReader.onerror=(error) => {
+        reject(error);
+      };
+    });
+    promise.then((excelData) => {
+      items.push(excelData);
+      console.log(excelData);
+    });
+  };
   return(
   <div className="new-incident-container">
   <div className="content">
       <section>
-      <img src={logoImage} alt="Obie Comfort Solutions" />
+      <img src={logoImage} alt="Obie Comfort Solutions"/>
 
-      <h1>Register a new Case</h1>
-      <p>Sign up, get in to the plarform and help people to find someone in need of something</p>
-
+      <h1>Upload Table</h1>
+      <p>To Show the data on the main screen upload the XLS file on the side box!</p>
+      
       <Link className="back-link" to="/profile">
         <FiArrowLeft size={16} color="#E02041"/>
           Back.
       </Link>
       </section>
-        <form>
+      <form>
         <div>
-			      <input type="file" name="file" onChange={changeHandler} />
-            <div>
-                <button onClick={handleSubmission}className="button" type="submit">Submit</button>
-            </div>
-        </div>
-          <input 
-              placeholder="Title"
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-          />
-          <textarea 
-              placeholder="Description" 
-              value={description}
-              onChange={e => setDescription(e.target.value)}
+        <h1>Upload Your XLS File</h1>
+			    <input type="file" name="file" onChange={changeHandler} />
+          <div>
+            <button onClick={handleSubmission}className="button" type="submit">Submit</button>
+          </div>
+          </div>
           
-          />
-          
-          <input 
-              placeholder="Amount $"
-              value={value}
-              onChange={e => setValue(e.target.value)}
-          />
-          
-
-          <button onClick ={handleNewIncident} className="button" type="submit">Register</button>
-        </form>
+      </form>
       
     </div>
   </div>
